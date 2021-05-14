@@ -1,7 +1,7 @@
 {
     "platos" : [
         {
-            "ID" : 0,
+            "_id" : 0,
             "titulo" : "Suprema de Pollo",
             "precio" : 880,
             "descripcion" : "Este es un plato es muy rico",
@@ -11,7 +11,7 @@
         },
         {
 
-            "ID" : 1,
+            "_id" : 1,
             "titulo" : "Milanesas con Papas Fritas",
             "precio" : 780,
             "descripcion" : "Este es un plato es muy rico",
@@ -20,7 +20,7 @@
             "habilitado" : true
         },
         {
-            "ID" : 2,
+            "_id" : 2,
             "titulo" : "Ravioles",
             "precio" : 600,
             "descripcion" : "Este es un plato es muy rico",
@@ -29,7 +29,7 @@
             "habilitado" : true
         },
         {
-            "ID" : 3,
+            "_id" : 3,
             "titulo" : "Hamburguesa doble",
             "precio" : 550,
             "descripcion" : "Este es un plato es delicioso",
@@ -38,7 +38,7 @@
             "habilitado" : true
         },
         {
-            "ID" : 4,
+            "_id" : 4,
             "titulo" : "Pizza Muzzarella",
             "precio" : 600,
             "descripcion" : "Este es un plato es delicioso",
@@ -47,16 +47,16 @@
             "habilitado" : true
         },
         {
-            "ID" : 5,
+            "_id" : 5,
             "titulo" : "Ensalada",
             "precio" : 400,
             "descripcion" : "Este es un plato es delicioso",
-            "url_imagen" : "https://www.superama.com.mx/views/micrositio/recetas/images/comidasaludable/ensaladamixta/Web_fotoreceta.jpg",
+            "url_imagen" : "https://www.superama.com.mx/views/micrositio/recetas/images/com_idasaludable/ensaladamixta/Web_fotoreceta.jpg",
             "categoria" : "ensaladas",
             "habilitado" : true
         },
         {
-            "ID" : 6,
+            "_id" : 6,
             "titulo" : "Ensalada Caesar",
             "precio" : 450,
             "descripcion" : "Este es un plato es delicioso",
