@@ -1,11 +1,14 @@
 const express = require('express');
 const fs = require('fs')
+const cors = require('cors')
 
 const app = express();
 const PORT = 3000;
 const path = "./menu.json";
 
 let menu = JSON.parse(fs.readFileSync(path, 'utf8'));
+
+app.use(cors());
 
 // http://locahost:3000/
 app.get('/', (req, res) =>{
