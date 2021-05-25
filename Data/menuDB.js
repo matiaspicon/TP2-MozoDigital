@@ -1,16 +1,23 @@
-const fs = require('fs').promises;
-const path = './data/menu.json';
+const connection = require('./connection');
+let objectId = require('mongodb').ObjectId;
 const joi = requier('joi')
 
 async function getMenu(){
-    const menus = await fs.readFile(path, 'utf-8');
-    return await JSON.parse(menus);
+    const clientmongo = await connection.getConnection();
+    console.log(clientmongo);
+    const restaurantes = await clientmongo.db('MozoDigital')
+                    .collection('Restaurantes')
+                    .find()
+                    .toArray();
+    return restaurantes;
 }
 
-async function getMenuByID(id){
+
+async function getRestaurante(id){
     const menu = await getMenu();
     return menu.find(menu => menu._id == id);
 }
+
 
 async function addMenu(menu){
     const menus = await getMenu();
