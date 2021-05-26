@@ -1,12 +1,12 @@
 [
     {
-        nombre: "Restaurante",
-        color_principal: "AF2314",
-        logo: "URL",
-        sucursales: [
+        "nombre": "Restaurante",
+        "color_principal": "AF2314",
+        "logo": "URL",
+        "sucursales": [
             {
-                direccion: "Av Cabildo",
-                menu: [
+                "direccion": "Av Cabildo",
+                "menu": [
                     {
                      "_id": 0,
                      "titulo": "Suprema de Pollo",
@@ -71,13 +71,13 @@
                      "habilitado": true
                     }
                 ],
-                telefono: 12312312,
-                horario: "de 9 a 18",
-                mail:"restaurant@gmail.com"
+                "telefono": 12312312,
+                "horario": "de 9 a 18",
+                "mail":"restaurant@gmail.com"
             },
             {
-                direccion: "Av 9 de Julio",
-                menu: [
+                "direccion": "Av 9 de Julio",
+                "menu": [
                     {
                      "_id": 0,
                      "titulo": "Suprema de Pollo",
@@ -142,9 +142,9 @@
                      "habilitado": true
                     }
                 ],
-                telefono: 12312312,
-                horario: "de 9 a 18",
-                mail:"restaurant@gmail.com"
+                "telefono": 12312312,
+                "horario": "de 9 a 18",
+                "mail":"restaurant@gmail.com"
             }
         ]
        
