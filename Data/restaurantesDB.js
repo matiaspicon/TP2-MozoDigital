@@ -3,7 +3,7 @@ let objectId = require('mongodb').ObjectId;
 
 async function getRestaurantes(){
     const clientmongo = await connection.getConnection();
-    console.log(clientmongo);
+    //console.log(clientmongo);
     const restaurantes = await clientmongo.db('MozoDigital')
                     .collection('Restaurantes')
                     .find()

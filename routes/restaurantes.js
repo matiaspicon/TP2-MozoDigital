@@ -3,7 +3,9 @@ const router = express.Router();
 const dataRestaurante = require('../Data/restaurantesDB.js');
 const dataSucursal = require('../Data/sucursalesDB.js');
 const dataMenu = require('../Data/menuDB.js');
+const joi = require('joi');
 
+// --------------------GET----------------------------------
 
 // /api/restaurantes/
 router.get('/', async function(req, res, next) {
@@ -56,50 +58,173 @@ router.get('/:idRestaurante/sucursales/:idSucursal/menu/:idMenuItem', async (req
     }
 });
 
+// --------------------POST---------------------------------
+
 router.post('/', async (req, res)=>{
-    //TODO: Validacion
-    let restaurante = req.body;
-    restaurante = await dataRestaurante.addRestaurante(restaurante);
-    res.json(restaurante);
+    const schema = joi.object({
+        nombre: joi.string().required(),
+        color_principal: joi.string().alphanum(),
+        logo: joi.string(),
+        sucursales: joi.array().items({
+            _id: joi.number(),
+            direccion: joi.string().required(),
+            menu: joi.array().items({
+                _id: joi.number(),
+                titulo: joi.string().max(40).required(),
+                precio: joi.number().required(),
+                descripcion: joi.string(),
+                url_imagen : joi.string(),
+                categoria : joi.string(),
+                habilitado: joi.boolean()
+            }),
+            telefono: joi.string(),
+            horario: joi.string(),
+            mail: joi.string().required()
+        })        
+    });
+    const result = schema.validate(req.body);
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+    } else{
+        let restaurante = req.body;
+        restaurante = await dataRestaurante.addRestaurante(restaurante);
+        res.json(restaurante);
+    }
+    
 });
 
 router.post('/:idRestaurante/sucursales', async (req, res)=>{
-    //TODO: Validacion
-    let sucursal = req.body;
-    sucursal = await dataSucursal.addSucursal(req.params.idRestaurante, sucursal);
-    res.json(sucursal);
+    const schema = joi.object({
+        _id: joi.number(),
+        direccion: joi.string().required(),
+        menu: joi.array().items({
+            _id: joi.number(),
+            titulo: joi.string().max(40).required(),
+            precio: joi.number().required(),
+            descripcion: joi.string(),
+            url_imagen : joi.string(),
+            categoria : joi.string(),
+            habilitado: joi.boolean()
+        }),
+        telefono: joi.string(),
+        horario: joi.string(),
+        mail: joi.string().required()
+    });
+    const result = schema.validate(req.body);
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+    } else{
+        let sucursal = req.body;
+        sucursal = await dataSucursal.addSucursal(req.params.idRestaurante, sucursal);
+        res.json(sucursal);
+    }
 });
 
 router.post('/:idRestaurante/sucursales/:idSucursal/menu', async (req, res)=>{
-    //TODO: Validacion
-    let menuItem = req.body;
-    menuItem = await dataMenu.addMenuItem(req.params.idRestaurante, req.params.idSucursal, menuItem);
-    res.json(menuItem);
+    const schema = joi.object({
+        _id: joi.number(),
+        titulo: joi.string().max(40).required(),
+        precio: joi.number().required(),
+        descripcion: joi.string(),
+        url_imagen : joi.string(),
+        categoria : joi.string(),
+        habilitado: joi.boolean()        
+    });
+    const result = schema.validate(req.body);
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+    } else{
+        let menuItem = req.body;
+        menuItem = await dataMenu.addMenuItem(req.params.idRestaurante, req.params.idSucursal, menuItem);
+        res.json(menuItem);
+    }
 });
 
+// --------------------PUT----------------------------------
+
 router.put('/:idRestaurante', async (req, res)=>{
-    //TODO: validacion
-    let restaurante = req.body;
-    restaurante._id = req.params.idRestaurante;
-    dataRestaurante.updateRestaurante(restaurante);
-    res.json(restaurante);
+    const schema = joi.object({
+        nombre: joi.string().required(),
+        color_principal: joi.string().alphanum(),
+        logo: joi.string(),
+        sucursales: joi.array().items({
+            _id: joi.number(),
+            direccion: joi.string().required(),
+            menu: joi.array().items({
+                _id: joi.number(),
+                titulo: joi.string().max(40).required(),
+                precio: joi.number().required(),
+                descripcion: joi.string(),
+                url_imagen : joi.string(),
+                categoria : joi.string(),
+                habilitado: joi.boolean()
+            }),
+            telefono: joi.string(),
+            horario: joi.string(),
+            mail: joi.string().required()
+        })        
+    });
+    const result = schema.validate(req.body);
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+    } else{
+        let restaurante = req.body;
+        restaurante._id = req.params.idRestaurante;
+        dataRestaurante.updateRestaurante(restaurante);
+        res.json(restaurante);
+    }
 });
 
 router.put('/:idRestaurante/sucursales/:idSucursal', async (req, res)=>{
-    //TODO: validacion
-    let sucursal = req.body;
-    sucursal._id = req.params.idSucursal;
-    dataSucursal.updateSucursal(req.params.idRestaurante, sucursal);
-    res.json(sucursal);
+    const schema = joi.object({
+        _id: joi.number(),
+        direccion: joi.string().required(),
+        menu: joi.array().items({
+            _id: joi.number(),
+            titulo: joi.string().max(40).required(),
+            precio: joi.number().required(),
+            descripcion: joi.string(),
+            url_imagen : joi.string(),
+            categoria : joi.string(),
+            habilitado: joi.boolean()
+        }),
+        telefono: joi.string(),
+        horario: joi.string(),
+        mail: joi.string().required()
+    });
+    const result = schema.validate(req.body);
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+    } else{
+        let sucursal = req.body;
+        sucursal._id = req.params.idSucursal;
+        dataSucursal.updateSucursal(req.params.idRestaurante, sucursal);
+        res.json(sucursal);
+    }
 });
 
 router.put('/:idRestaurante/sucursales/:idSucursal/menu/:idMenuItem', async (req, res)=>{
-    //TODO: validacion
-    let menuItem = req.body;
-    menuItem._id = req.params.idMenuItem;
-    dataMenu.updateMenu(req.params.idRestaurante, req.params.idSucursal, menuItem);
-    res.json(menuItem);
+    const schema = joi.object({
+        _id: joi.number(),
+        titulo: joi.string().max(40).required(),
+        precio: joi.number().required(),
+        descripcion: joi.string(),
+        url_imagen : joi.string(),
+        categoria : joi.string(),
+        habilitado: joi.boolean()        
+    });
+    const result = schema.validate(req.body);
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+    } else{
+        let menuItem = req.body;
+        menuItem._id = req.params.idMenuItem;
+        dataMenu.updateMenu(req.params.idRestaurante, req.params.idSucursal, menuItem);
+        res.json(menuItem);
+    }
 });
+
+// --------------------DELETE-------------------------------
 
 router.delete('/:idRestaurante', async (req, res)=>{
     const restaurante = await dataRestaurante.getRestaurante(req.params.idRestaurante)
