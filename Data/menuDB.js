@@ -1,57 +1,57 @@
 const connection = require('./connection');
 let objectId = require('mongodb').ObjectId;
-const joi = requier('joi')
+const dataSucursal = require('./sucursalesDB.js');
 
-async function getMenu(){
-    const clientmongo = await connection.getConnection();
-    console.log(clientmongo);
-    const restaurantes = await clientmongo.db('MozoDigital')
-                    .collection('Restaurantes')
-                    .find()
-                    .toArray();
-    return restaurantes;
+async function getMenu(idRestaurante, idSucursal){
+    const sucursal = await dataSucursal.getSucursal(idRestaurante, idSucursal);
+    return sucursal.menu;
 }
 
-
-async function getRestaurante(id){
-    const menu = await getMenu();
-    return menu.find(menu => menu._id == id);
+async function getMenuItem(idRestaurante, idSucursal, idMenuItem){
+    const menu = await getMenu(idRestaurante, idSucursal)
+    const menuItem = menu.find(menuItem => menuItem._id == idMenuItem)
+    return menuItem;
 }
 
-
-async function addMenu(menu){
-    const menus = await getMenu();
-    menus.sort((a,b)=> a._id - b._id);
-    const lastId = menus[menus.length-1]._id;
-    menu._id = lastId + 1;
-    menus.push(menu);
-    await fs.writeFile(path, JSON.stringify(menus, null, ' '));
-
-    return menu;
+async function addMenuItem(idRestaurante, idSucursal, menuItem){
+    const sucursal = await dataSucursal.getSucursal(idRestaurante, idSucursal);
+    sucursal.menu.push(menuItem);
+    const result = await dataSucursal.updateSucursal(idRestaurante, sucursal);
+    return result;
 }
 
-// async function updateMenu(menu){
-//     const menu = await getMenu();
-//     const index = menu.findIndex(inv => inv._id == menu._id);
-//     if(menu.first){
-//         menu[index].first = menu.first;
-//     }
-//     if(menu.last){
-//         menu[index].last = menu.last;
-//     }
-//     if(menu.year){
-//         menu[index].year = menu.year;
-//     }
-//     await fs.writeFile(path, JSON.stringify(menu, null, ' '));
-
-//     return menu[index];
-// }
-
-async function deleteMenu(id){
-    const menus = await getMenu();
-    const index = menus.findIndex(menu => menu._id == id);
-    menus.splice(index,1);
-    await fs.writeFile(path, JSON.stringify(menus, null, ' ')); 
+async function updateMenuItem(idRestaurante, idSucursal, menuItem){
+    const sucursal = await dataSucursal.getSucursal(idRestaurante, idSucursal);
+    const menu = sucursal.menu;
+    const index = menu.findIndex(menuIt => menuIt._id == menuItem._id);
+    if(menuItem.titulo){
+        menu[index].titulo = menuItem.direccion;
+    }
+    if(menuItem.precio){
+        menu[index].precio = menuItem.precio;
+    }
+    if(menuItem.descripcion){
+        menu[index].descripcion = menuItem.descripcion;
+    }
+    if(menuItem.url_imagen){
+        menu[index].url_imagen = menuItem.url_imagen;
+    }
+    if(menuItem.categoria){
+        menu[index].categoria = menuItem.categoria;
+    }
+    if(menuItem.habilitado){
+        menu[index].habilitado = menuItem.habilitado;
+    }
+    const result = await dataSucursal.updateSucursal(sucursal);
+    return result;
 }
 
-module.exports = {getMenu, getMenuByID, addMenu, deleteMenu};
+async function deleteMenuItem(idRestaurante, idSucursal, idMenuItem){
+    const sucursal = await dataSucursal.getSucursal(idRestaurante, idSucursal);
+    const menu = sucursal.menu;
+    menu.pop(menuItem => menuItem._id == idMenuItem);
+    const result = await dataSucursal.updateSucursal(idRestaurante, sucursal);
+    return result;
+}
+
+module.exports = {getMenu, getMenuItem, addMenuItem, updateMenuItem, deleteMenuItem};
