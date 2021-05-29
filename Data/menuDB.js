@@ -25,7 +25,7 @@ async function updateMenuItem(idRestaurante, idSucursal, menuItem){
     const menu = sucursal.menu;
     const index = menu.findIndex(menuIt => menuIt._id == menuItem._id);
     if(menuItem.titulo){
-        menu[index].titulo = menuItem.direccion;
+        menu[index].titulo = menuItem.titulo;
     }
     if(menuItem.precio){
         menu[index].precio = menuItem.precio;
@@ -42,7 +42,7 @@ async function updateMenuItem(idRestaurante, idSucursal, menuItem){
     if(menuItem.habilitado){
         menu[index].habilitado = menuItem.habilitado;
     }
-    const result = await dataSucursal.updateSucursal(sucursal);
+    const result = await dataSucursal.updateSucursal(idRestaurante, sucursal);
     return result;
 }
 

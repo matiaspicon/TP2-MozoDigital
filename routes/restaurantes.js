@@ -144,16 +144,16 @@ router.post('/:idRestaurante/sucursales/:idSucursal/menu', async (req, res)=>{
 
 router.put('/:idRestaurante', async (req, res)=>{
     const schema = joi.object({
-        nombre: joi.string().required(),
+        nombre: joi.string(),
         color_principal: joi.string().alphanum(),
         logo: joi.string(),
         sucursales: joi.array().items({
             _id: joi.number(),
-            direccion: joi.string().required(),
+            direccion: joi.string(),
             menu: joi.array().items({
                 _id: joi.number(),
-                titulo: joi.string().max(40).required(),
-                precio: joi.number().required(),
+                titulo: joi.string().max(40),
+                precio: joi.number(),
                 descripcion: joi.string(),
                 url_imagen : joi.string(),
                 categoria : joi.string(),
@@ -161,7 +161,7 @@ router.put('/:idRestaurante', async (req, res)=>{
             }),
             telefono: joi.string(),
             horario: joi.string(),
-            mail: joi.string().required()
+            mail: joi.string()
         })        
     });
     const result = schema.validate(req.body);
@@ -178,11 +178,11 @@ router.put('/:idRestaurante', async (req, res)=>{
 router.put('/:idRestaurante/sucursales/:idSucursal', async (req, res)=>{
     const schema = joi.object({
         _id: joi.number(),
-        direccion: joi.string().required(),
+        direccion: joi.string(),
         menu: joi.array().items({
             _id: joi.number(),
-            titulo: joi.string().max(40).required(),
-            precio: joi.number().required(),
+            titulo: joi.string().max(40),
+            precio: joi.number(),
             descripcion: joi.string(),
             url_imagen : joi.string(),
             categoria : joi.string(),
@@ -190,7 +190,7 @@ router.put('/:idRestaurante/sucursales/:idSucursal', async (req, res)=>{
         }),
         telefono: joi.string(),
         horario: joi.string(),
-        mail: joi.string().required()
+        mail: joi.string()
     });
     const result = schema.validate(req.body);
     if(result.error){
@@ -206,8 +206,8 @@ router.put('/:idRestaurante/sucursales/:idSucursal', async (req, res)=>{
 router.put('/:idRestaurante/sucursales/:idSucursal/menu/:idMenuItem', async (req, res)=>{
     const schema = joi.object({
         _id: joi.number(),
-        titulo: joi.string().max(40).required(),
-        precio: joi.number().required(),
+        titulo: joi.string().max(40),
+        precio: joi.number(),
         descripcion: joi.string(),
         url_imagen : joi.string(),
         categoria : joi.string(),
@@ -216,10 +216,10 @@ router.put('/:idRestaurante/sucursales/:idSucursal/menu/:idMenuItem', async (req
     const result = schema.validate(req.body);
     if(result.error){
         res.status(400).send(result.error.details[0].message);
-    } else{
+    } else {
         let menuItem = req.body;
         menuItem._id = req.params.idMenuItem;
-        dataMenu.updateMenu(req.params.idRestaurante, req.params.idSucursal, menuItem);
+        dataMenu.updateMenuItem(req.params.idRestaurante, req.params.idSucursal, menuItem);
         res.json(menuItem);
     }
 });
