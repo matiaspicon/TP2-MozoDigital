@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../App');
 var debug = require('debug')('tp2-mozodigital:server');
 var http = require('http');
 
