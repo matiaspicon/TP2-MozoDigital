@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const dataRestaurante = require('../Data/restaurantesDB.js');
-const dataSucursal = require('../Data/sucursalesDB.js');
-const dataMenu = require('../Data/menuDB.js');
+const dataRestaurante = require('../data/restaurantesDB.js');
+const dataSucursal = require('../data/sucursalesDB.js');
+const dataMenu = require('../data/menuDB.js');
 const joi = require('joi');
 
 // --------------------GET----------------------------------

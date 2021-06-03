@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const dataPedidos = require("../Data/pedidosDB.js");
+const dataPedidos = require("../data/pedidosDB.js");
 //const auth = require("../middleware/auth.js");
 const joi = require("joi");
 

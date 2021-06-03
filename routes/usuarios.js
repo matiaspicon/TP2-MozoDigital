@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const dataUsuarios = require("../Data/usuariosDB.js");
+const dataUsuarios = require("../data/usuariosDB.js");
 const auth = require("../middleware/auth.js");
 const joi = require("joi");
 
