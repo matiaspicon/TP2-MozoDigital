@@ -53,7 +53,7 @@ async function findByCredential(email, password) {
 }
 
 function generateAuthToken(usuario) {
-  const token = jwt.sign({ _id: usuario._id }, process.env.SECRET, {
+  const token = jwt.sign({ _id: usuario._id, rol: usuario.rol }, process.env.SECRET, {  
     expiresIn: "2h",
   });
   return token;

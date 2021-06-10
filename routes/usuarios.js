@@ -5,9 +5,13 @@ const auth = require("../middleware/auth.js");
 const joi = require("joi");
 
 /* GET users listing. */
-router.get("/", async function (req, res, next) {
-  const usuarios = await dataUsuarios.getUsuarios();
-  res.send(usuarios);
+router.get("/", auth, async function (req, res) {
+  if (req.user.rol === "Admin") {
+    const usuarios = await dataUsuarios.getUsuarios();
+    res.send(usuarios);
+  } else {
+    res.status(401).send("Usuario no autorizado");
+  }  
 });
 
 router.get("/:idUsuario", async (req, res) => {
@@ -27,7 +31,7 @@ router.post("/", async (req, res) => {
     apellido: joi.string().required(),
     password: joi.string().alphanum().required(),
     email: joi.string().required(),
-    rol: joi.string().required(),    
+    rol: joi.string().required(),
   });
 
   const result = schema.validate(req.body);
@@ -49,8 +53,7 @@ router.post("/login", async (req, res) => {
     );
     const token = dataUsuarios.generateAuthToken(usuario);
     res.send({ usuario, token });
-  } 
-  catch (error) {
+  } catch (error) {
     res.status(401).send(error.message);
   }
 });
@@ -63,7 +66,7 @@ router.put("/:idUsuario", async (req, res) => {
     apellido: joi.string(),
     password: joi.string().alphanum(),
     email: joi.string(),
-    rol: joi.string(),    
+    rol: joi.string(),
   });
 
   const result = schema.validate(req.body);

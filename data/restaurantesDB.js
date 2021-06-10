@@ -15,7 +15,7 @@ async function getRestaurantes() {
 async function getRestaurante(idRestaurante) {
   const clientmongo = await connection.getConnection();
 
-  const restaurante = clientmongo
+  const restaurante = await clientmongo
     .db("MozoDigital")
     .collection("Restaurantes")
     .findOne({ _id: new objectId(idRestaurante) });

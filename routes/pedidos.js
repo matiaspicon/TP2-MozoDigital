@@ -11,9 +11,9 @@ router.get("/", async function (req, res, next) {
 });
 
 router.get("/:idPedido", async (req, res) => {
-  const user = await dataPedidos.getPedido(req.params.idPedido);
-  if (user) {
-    res.json(user);
+  const pedido = await dataPedidos.getPedido(req.params.idPedido);
+  if (pedido) {
+    res.json(pedido);
   } else {
     res.status(404).send("Pedido no encontrado");
   }

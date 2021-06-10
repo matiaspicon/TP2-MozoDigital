@@ -8,7 +8,7 @@ let instance = null;
 async function getConnection() {
   if (instance == null) {
     try {
-      instance = await client.connect();
+      instance = await client.connect();      
     } catch (err) {
       console.log(err.message);
       throw new Error("problemas al conectarse con mongo");

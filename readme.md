@@ -41,4 +41,46 @@
 
 
 ## Listado de los endpoints de la API
-    
+   ### GET:
+    /api/restaurantes/
+    /api/restaurantes/:idRestaurante
+    /api/restaurantes/:idRestaurante/sucursales
+    /api/restaurantes/:idRestaurante/sucursales/:idSucursal
+    /api/restaurantes/:idRestaurante/sucursales/:idSucursal/menu
+    /api/restaurantes/:idRestaurante/sucursales/:idSucursal/menu/:idMenuItem
+
+    /api/pedidos/
+    /api/pedidos/:idPedido
+
+    /api/usuarios/
+    /api/usuarios/:idUsuario
+
+
+### POST:
+    /api/restaurantes/    
+    /api/restaurantes/:idRestaurante/sucursales
+    /api/restaurantes/:idRestaurante/sucursales/:idSucursal/menu
+
+    /api/pedidos/
+
+    /api/usuarios/
+
+
+### PUT:
+    /api/restaurantes/:idRestaurante
+    /api/restaurantes/:idRestaurante/sucursales/:idSucursal
+    /api/restaurantes/:idRestaurante/sucursales/:idSucursal/menu/:idMenuItem
+
+    /api/pedidos/:idPedido
+
+    /api/usuarios/:idUsuario
+
+
+### DELETE:
+    /api/restaurantes/:idRestaurante
+    /api/restaurantes/:idRestaurante/sucursales/:idSucursal
+    /api/restaurantes/:idRestaurante/sucursales/:idSucursal/menu/:idMenuItem
+
+    /api/pedidos/:idPedido
+
+    /api/usuarios/:idUsuario
