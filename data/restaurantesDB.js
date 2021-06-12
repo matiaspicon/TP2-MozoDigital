@@ -19,7 +19,6 @@ async function getRestaurante(idRestaurante) {
     .db("MozoDigital")
     .collection("Restaurantes")
     .findOne({ _id: new objectId(idRestaurante) });
-  console.log(restaurante.sucursales);
   return restaurante;
 }
 
@@ -46,12 +45,17 @@ async function updateRestaurante(restaurante) {
   if (restaurante.logo) {
     restauranteExistente.logo = restaurante.logo;
   }
+  if (restaurante.sucursales) {
+    restauranteExistente.sucursales = restaurante.sucursales;
+  }
+
 
   const newvalues = {
     $set: {
       nombre: restauranteExistente.nombre,
       color_principal: restauranteExistente.color_principal,
-      logo: restauranteExistente.logo
+      logo: restauranteExistente.logo,
+      sucursales: restauranteExistente.sucursales
     },
   };
 
