@@ -34,10 +34,14 @@
 
 
 ## Instrucciones técnicas:
-    - Para la instalación de un entorno de desarrollo
-
-
-    - Para la ejecución
+   ### Instalación:
+    - git clone
+    - npm install
+    - Solicitar archivo .env
+    
+   ### Ejecución:
+    - npm start 
+    - npm run nodemon (debug)
 
 
 ## Listado de los endpoints de la API
