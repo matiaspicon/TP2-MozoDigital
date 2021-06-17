@@ -4,9 +4,11 @@ const dataUsuarios = require("../data/usuariosDB.js");
 const auth = require("../middleware/auth.js");
 const joi = require("joi");
 
+
 /* GET users listing. */
+
 router.get("/", auth, async function (req, res) {
-  if (req.user.rol === "Admin") {
+  if (req.user.rol == "Encargado") {
     const usuarios = await dataUsuarios.getUsuarios();
     res.send(usuarios);
   } else {
@@ -14,8 +16,9 @@ router.get("/", auth, async function (req, res) {
   }  
 });
 
-router.get("/:idUsuario", async (req, res) => {
-  const usuario = await dataUsuarios.getUsuario(req.params.idUsuario);
+router.get("/me", auth, async (req, res) => {
+  console.log(req.user._id)
+  const usuario = await dataUsuarios.getUsuario(req.user._id);
   if (usuario) {
     res.json(usuario);
   } else {
@@ -23,15 +26,29 @@ router.get("/:idUsuario", async (req, res) => {
   }
 });
 
+router.get("/:idUsuario", auth, async (req, res) => {
+  const usuario = await dataUsuarios.getUsuario(req.params.idUsuario);
+  if (req.user.rol == "Encargado") {
+    if (usuario) {
+      res.json(usuario);
+    } else {
+      res.status(404).send("Usuario no encontrado");
+    } 
+  } else {
+    res.status(401).send("Usuario no autorizado");
+  } 
+});
+
+
 // --------------------POST---------------------------------
 
 router.post("/", async (req, res) => {
+  req.body.rol = "Cliente";
   const schema = joi.object({
     nombre: joi.string().required(),
     apellido: joi.string().required(),
     password: joi.string().alphanum().required(),
     email: joi.string().required(),
-    rol: joi.string().required(),
   });
 
   const result = schema.validate(req.body);
@@ -42,6 +59,30 @@ router.post("/", async (req, res) => {
     let usuario = req.body;
     usuario = await dataUsuarios.addUsuario(usuario);
     res.json(usuario);
+  }
+});
+
+router.post("/empleado", auth, async (req, res) => {
+  if (req.user.rol == "Encargado") {
+    const schema = joi.object({
+      nombre: joi.string().required(),
+      apellido: joi.string().required(),
+      password: joi.string().alphanum().required(),
+      email: joi.string().required(),
+      rol: joi.string().required(),
+    });
+
+    const result = schema.validate(req.body);
+
+    if (result.error) {
+      res.status(400).send(result.error.details[0].message);
+    } else {
+      let usuario = req.body;
+      usuario = await dataUsuarios.addUsuario(usuario);
+      res.json(usuario);
+    }
+  } else {
+    res.status(401).send("Usuario no autorizado");
   }
 });
 
@@ -60,36 +101,44 @@ router.post("/login", async (req, res) => {
 
 // --------------------PUT----------------------------------
 
-router.put("/:idUsuario", async (req, res) => {
-  const schema = joi.object({
-    nombre: joi.string(),
-    apellido: joi.string(),
-    password: joi.string().alphanum(),
-    email: joi.string(),
-    rol: joi.string(),
-  });
+router.put("/:idUsuario", auth, async (req, res) => {
+  if (req.user.rol == "Encargado") {
+    const schema = joi.object({
+      nombre: joi.string(),
+      apellido: joi.string(),
+      password: joi.string().alphanum(),
+      email: joi.string(),
+      rol: joi.string(),
+    });
 
-  const result = schema.validate(req.body);
+    const result = schema.validate(req.body);
 
-  if (result.error) {
-    res.status(400).send(result.error.details[0].message);
+    if (result.error) {
+      res.status(400).send(result.error.details[0].message);
+    } else {
+      let usuario = req.body;
+      usuario._id = req.params.idUsuario;
+      dataUsuarios.updateUsuario(usuario);
+      res.send("Usuario actualizado correctamente");
+    }
   } else {
-    let usuario = req.body;
-    usuario._id = req.params.idUsuario;
-    dataUsuarios.updateUsuario(usuario);
-    res.send("Usuario actualizado correctamente");
-  }
+      res.status(401).send("Usuario no autorizado");
+  } 
 });
 
 // --------------------DELETE-------------------------------
 
-router.delete("/:idUsuario", async (req, res) => {
-  const usuario = await dataUsuarios.getUsuario(req.params.idUsuario);
-  if (!usuario) {
-    res.status(404).send("Usuario no encontrado");
+router.delete("/:idUsuario", auth, async (req, res) => {
+  if (req.user.rol == "Encargado") {
+    const usuario = await dataUsuarios.getUsuario(req.params.idUsuario);
+    if (!usuario) {
+      res.status(404).send("Usuario no encontrado");
+    } else {
+      dataUsuarios.deleteUsuario(req.params.idUsuario);
+      res.status(200).send("Usuario eliminado");
+    }
   } else {
-    dataUsuarios.deleteUsuario(req.params.idUsuario);
-    res.status(200).send("Usuario eliminado");
+    res.status(401).send("Usuario no autorizado");
   }
 });
 

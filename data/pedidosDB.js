@@ -35,6 +35,10 @@ async function updatePedido(pedido) {
 
   const pedidoExistente = await getPedido(pedido._id);
 
+  if (pedido.menuItems) {
+    pedidoExistente.menuItems = pedido.menuItems;
+  }
+
   if (pedido.estado) {
     pedidoExistente.estado = pedido.estado;
   }
