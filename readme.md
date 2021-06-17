@@ -57,6 +57,7 @@
     /api/pedidos/:idPedido
 
     /api/usuarios/
+    /api/usuarios/me
     /api/usuarios/:idUsuario
 
 
