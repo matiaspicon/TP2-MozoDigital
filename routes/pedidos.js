@@ -43,20 +43,19 @@ router.get("/:idPedido", auth, async (req, res) => {
 
 router.post("/", auth, async (req, res) => {
   if (req.user.rol == "Cliente") {
-    req.body.cliente = req.user._id;
-    console.log(req.body);
     const schema = joi.object({
       menuItems: joi.array().items({
-          _id: joi.number().required(),
-          titulo: joi.string().max(40).required(),
-          cantidad: joi.number().required(),
-          precio:  joi.number().required()
+        _id: joi.number().required(),
+        titulo: joi.string().max(40).required(),
+        cantidad: joi.number().required(),
+        precio:  joi.number().required()
       }),
       estado: joi.string().required(),    
     });
-
+    
     const result = schema.validate(req.body); 
-
+    req.body.cliente = req.user._id;
+    
     if (result.error) {
       res.status(400).send(result.error.details[0].message);
     } else {
