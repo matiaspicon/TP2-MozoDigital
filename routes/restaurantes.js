@@ -133,7 +133,7 @@ router.post('/:idRestaurante/sucursales', auth, async (req, res)=>{
 router.post('/:idRestaurante/sucursales/:idSucursal/menu', auth, async (req, res)=>{
     if (req.user.rol == "Encargado") {
         const schema = joi.object({
-            _id: joi.number(),
+            //_id: joi.number(),
             titulo: joi.string().max(40).required(),
             precio: joi.number().required(),
             descripcion: joi.string(),
@@ -145,6 +145,19 @@ router.post('/:idRestaurante/sucursales/:idSucursal/menu', auth, async (req, res
         if(result.error){
             res.status(400).send(result.error.details[0].message);
         } else{
+            const menu = await dataMenu.getMenu(req.params.idRestaurante, req.params.idSucursal);
+
+            let idLibre;
+
+            for (let unId = 0; unId <= menu.length; unId++) {
+                let unMenuItem = menu.find(element => element._id == unId);
+                if (unMenuItem == null) {
+                    idLibre = unId;
+                    break;
+                }
+            }
+
+            req.body._id = idLibre;
             let menuItem = req.body;
             menuItem = await dataMenu.addMenuItem(req.params.idRestaurante, req.params.idSucursal, menuItem);
             res.json(menuItem);

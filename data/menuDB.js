@@ -39,7 +39,7 @@ async function updateMenuItem(idRestaurante, idSucursal, menuItem){
     if(menuItem.categoria){
         menu[index].categoria = menuItem.categoria;
     }
-    if(menuItem.habilitado){
+    if(menuItem.habilitado != null){
         menu[index].habilitado = menuItem.habilitado;
     }
     const result = await dataSucursal.updateSucursal(idRestaurante, sucursal);
@@ -49,7 +49,7 @@ async function updateMenuItem(idRestaurante, idSucursal, menuItem){
 async function deleteMenuItem(idRestaurante, idSucursal, idMenuItem){
     const sucursal = await dataSucursal.getSucursal(idRestaurante, idSucursal);
     const menu = sucursal.menu;
-    menu.pop(menuItem => menuItem._id == idMenuItem);
+    menu.splice(menu.indexOf(menu.find(menuItem => menuItem._id == idMenuItem)), 1);
     const result = await dataSucursal.updateSucursal(idRestaurante, sucursal);
     return result;
 }
