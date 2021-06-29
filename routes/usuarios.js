@@ -70,6 +70,9 @@ router.post("/empleado", auth, async (req, res) => {
       password: joi.string().alphanum().required(),
       email: joi.string().required(),
       rol: joi.string().required(),
+      restaurante: joi.string(),
+      sucursal: joi.string(),
+      mesa: joi.array()
     });
 
     const result = schema.validate(req.body);
@@ -109,6 +112,9 @@ router.put("/:idUsuario", auth, async (req, res) => {
       password: joi.string().alphanum(),
       email: joi.string(),
       rol: joi.string(),
+      restaurante: joi.string(),
+      sucursal: joi.string(),
+      mesa: joi.array()
     });
 
     const result = schema.validate(req.body);

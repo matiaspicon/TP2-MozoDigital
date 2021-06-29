@@ -13,7 +13,7 @@ router.get("/", auth, async function (req, res, next) {
     res.send(pedidos.filter(pedido => 
       pedido.estado == "Pedido" || pedido.estado == "En preparacion" ))
   } else if (req.user.rol == "Mozo") {
-    res.send(pedidos.filter(pedido => pedido.estado == "Listo"))
+    res.send(pedidos)
   } else {
     res.status(401).send("Usuario no autorizado");
   }
@@ -27,8 +27,8 @@ router.get("/:idPedido", auth, async (req, res) => {
       res.send(pedido);
     } else if (req.user.rol == "Cocinero" && (pedido.estado == "Pedido" || pedido.estado == "En preparacion" )) {
         res.send(pedido)
-    } else if (req.user.rol == "Mozo" && pedido.estado == "Listo") {
-      res.send(pedido)
+    } else if (req.user.rol == "Mozo") {
+      res.send(pedido);
     } else if (req.user.rol == "Cliente" && pedido.cliente == req.user._id) {
       res.send(pedido)
     } else {
@@ -48,9 +48,12 @@ router.post("/", auth, async (req, res) => {
         _id: joi.number().required(),
         titulo: joi.string().max(40).required(),
         cantidad: joi.number().required(),
-        precio:  joi.number().required()
+        precio:  joi.number().required(),
       }),
-      estado: joi.string().required(),    
+      estado: joi.string().required(),
+      sucursal:  joi.string().alphanum().required(),
+      restaurante:  joi.string().alphanum().required(),
+      mesa:  joi.string().alphanum().required()  
     });
     
     const result = schema.validate(req.body); 
