@@ -73,16 +73,12 @@ async function updateUsuario(usuario) {
     usuarioExistente.apellido = usuario.apellido;
   }
 
-  if (usuario.nick_name) {
-    usuarioExistente.nick_name = usuario.nick_name;
-  }
-
   if (usuario.password) {
     usuarioExistente.password = usuario.password;
   }
 
   if (usuario.email) {
-    usuarioExistente.nombre = usuario.email;
+    usuarioExistente.email = usuario.email;
   }
 
   if (usuario.password) {
@@ -93,14 +89,28 @@ async function updateUsuario(usuario) {
     usuarioExistente.rol = usuario.rol;
   }
 
+  if (usuario.restaurante) {
+    usuarioExistente.restaurante = usuario.restaurante;
+  }
+
+  if (usuario.sucursal) {
+    usuarioExistente.sucursal = usuario.sucursal;
+  }
+
+  if (usuario.mesas) {
+    usuarioExistente.mesas = usuario.mesas;
+  }
+
   const newvalues = {
     $set: {
       nombre: usuarioExistente.nombre,
       apellido: usuarioExistente.apellido,
-      nick_name: usuarioExistente.nick_name,
       password: usuarioExistente.password,
       email: usuarioExistente.email,
       rol: usuarioExistente.rol,
+      restaurante: usuarioExistente.restaurante,
+      sucursal: usuarioExistente.sucursal,
+      mesas: usuarioExistente.mesas
     },
   };
 
