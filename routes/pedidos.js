@@ -56,8 +56,14 @@ router.post("/", auth, async (req, res) => {
       mesa:  joi.string().alphanum().required()  
     });
     
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+
     const result = schema.validate(req.body); 
     req.body.cliente = req.user._id;
+    req.body.fecha = dateTime;  
     
     if (result.error) {
       res.status(400).send(result.error.details[0].message);
