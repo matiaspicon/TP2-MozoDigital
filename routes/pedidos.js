@@ -51,15 +51,15 @@ router.post("/", auth, async (req, res) => {
         precio:  joi.number().required(),
       }),
       estado: joi.string().required(),
-      sucursal:  joi.string().alphanum().required(),
+      sucursal:  joi.number().required(),
       restaurante:  joi.string().alphanum().required(),
       mesa:  joi.string().alphanum().required()  
     });
     
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date+' '+time;
+    var time = (today.getHours() - 3) + ":" + today.getMinutes() + ":" + today.getSeconds(); // parseado a GMT - 3 (Horario estandar Argentina)
+    var dateTime =date+' '+time;
 
     const result = schema.validate(req.body); 
     req.body.cliente = req.user._id;
