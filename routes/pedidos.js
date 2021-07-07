@@ -53,7 +53,7 @@ router.post("/", auth, async (req, res) => {
       estado: joi.string().required(),
       sucursal:  joi.number().required(),
       restaurante:  joi.string().alphanum().required(),
-      mesa:  joi.string().alphanum().required()  
+      mesa:  joi.number().required()
     });
     
     var today = new Date();

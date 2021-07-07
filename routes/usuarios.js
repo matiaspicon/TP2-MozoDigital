@@ -49,6 +49,7 @@ router.post("/", async (req, res) => {
     apellido: joi.string().required(),
     password: joi.string().alphanum().required(),
     email: joi.string().required(),
+    rol: joi.string()
   });
 
   const result = schema.validate(req.body);
