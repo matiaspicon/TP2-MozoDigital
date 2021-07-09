@@ -14,6 +14,8 @@ router.get("/", auth, async function (req, res, next) {
       pedido.estado == "Pedido" || pedido.estado == "En preparacion" ))
   } else if (req.user.rol == "Mozo") {
     res.send(pedidos)
+  } else if (req.user.rol == "Cliente") {
+    res.send(pedidos.filter(pedido => pedido.cliente == req.user._id))
   } else {
     res.status(401).send("Usuario no autorizado");
   }
