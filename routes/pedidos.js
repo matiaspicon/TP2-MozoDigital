@@ -60,9 +60,11 @@ router.post("/", auth, async (req, res) => {
     
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    var time = (today.getHours() - 3) + ":" + today.getMinutes() + ":" + today.getSeconds(); // parseado a GMT - 3 (Horario estandar Argentina)
+    //var date = today.toLocaleDateString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
+    var time = today.toLocaleTimeString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
+    //var time = (today.getHours() - 3) + ":" + today.getMinutes() + ":" + today.getSeconds(); // parseado a GMT - 3 (Horario estandar Argentina)
     var dateTime =date+' '+time;
-
+    
     const result = schema.validate(req.body); 
     req.body.cliente = req.user._id;
     req.body.fecha = dateTime;  
